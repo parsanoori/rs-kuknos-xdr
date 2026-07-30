@@ -40,7 +40,7 @@ pub const XDR_FILES_SHA256: [(&str, &str); 13] = [
     ),
     (
         "xdr/Stellar-contract-spec.x",
-        "f0655f82e0a28a79e067c02f427cc709db1e4323a50c9b85f730f812b9612dbd",
+        "e417d406ba74963cfabae2266909305c2c156ea4aa639215a60d0db39c95418d",
     ),
     (
         "xdr/Stellar-contract.x",
@@ -5019,6 +5019,9 @@ pub use sc_meta_entry::*;
 mod sc_spec_doc_limit;
 #[allow(unused_imports)]
 pub use sc_spec_doc_limit::*;
+mod sc_spec_type_name_limit;
+#[allow(unused_imports)]
+pub use sc_spec_type_name_limit::*;
 mod sc_spec_type;
 #[allow(unused_imports)]
 pub use sc_spec_type::*;

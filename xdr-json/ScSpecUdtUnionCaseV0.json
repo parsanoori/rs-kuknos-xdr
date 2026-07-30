@@ -214,14 +214,14 @@
       }
     },
     "ScSpecTypeUdt": {
-      "description": "ScSpecTypeUdt is an XDR Struct defined as:\n\n```text struct SCSpecTypeUDT { string name<60>; }; ```",
+      "description": "ScSpecTypeUdt is an XDR Struct defined as:\n\n```text struct SCSpecTypeUDT { string name<SC_SPEC_TYPE_NAME_LIMIT>; }; ```",
       "type": "object",
       "required": [
         "name"
       ],
       "properties": {
         "name": {
-          "$ref": "#/definitions/StringM<60>"
+          "$ref": "#/definitions/StringM<128>"
         }
       }
     },
@@ -280,6 +280,10 @@
     "StringM<1024>": {
       "type": "string",
       "maxLength": 1024
+    },
+    "StringM<128>": {
+      "type": "string",
+      "maxLength": 128
     },
     "StringM<60>": {
       "type": "string",
