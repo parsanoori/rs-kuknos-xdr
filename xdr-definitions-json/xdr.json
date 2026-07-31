@@ -19,7 +19,7 @@
     },
     {
       "name": "xdr/Stellar-contract-spec.x",
-      "sha256": "e417d406ba74963cfabae2266909305c2c156ea4aa639215a60d0db39c95418d"
+      "sha256": "2120c58671a92773e95e75fd5f2df2fbcef51d7702b1ecd56ef7230b2dc852ac"
     },
     {
       "name": "xdr/Stellar-contract.x",
@@ -1896,8 +1896,8 @@
     {
       "kind": "const",
       "name": "SC_SPEC_TYPE_NAME_LIMIT",
-      "value": 128,
-      "source": "const SC_SPEC_TYPE_NAME_LIMIT = 128;",
+      "value": 256,
+      "source": "const SC_SPEC_TYPE_NAME_LIMIT = 256;",
       "file_index": 4
     },
     {
@@ -2138,7 +2138,7 @@
           "name": "name",
           "type": {
             "kind": "string",
-            "max_size": 128
+            "max_size": 256
           }
         }
       ]
@@ -2386,7 +2386,7 @@
           "name": "name",
           "type": {
             "kind": "string",
-            "max_size": 128
+            "max_size": 256
           }
         },
         {
@@ -2541,7 +2541,7 @@
           "name": "name",
           "type": {
             "kind": "string",
-            "max_size": 128
+            "max_size": 256
           }
         },
         {
@@ -2611,7 +2611,7 @@
           "name": "name",
           "type": {
             "kind": "string",
-            "max_size": 128
+            "max_size": 256
           }
         },
         {
@@ -2681,7 +2681,7 @@
           "name": "name",
           "type": {
             "kind": "string",
-            "max_size": 128
+            "max_size": 256
           }
         },
         {

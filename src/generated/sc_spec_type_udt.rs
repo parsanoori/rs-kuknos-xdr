@@ -22,7 +22,7 @@ use super::*;
 )]
 #[cfg_attr(feature = "schemars", derive(schemars::JsonSchema))]
 pub struct ScSpecTypeUdt {
-    pub name: StringM<128>,
+    pub name: StringM<256>,
 }
 
 impl ReadXdr for ScSpecTypeUdt {
@@ -30,7 +30,7 @@ impl ReadXdr for ScSpecTypeUdt {
     fn read_xdr<R: Read>(r: &mut Limited<R>) -> Result<Self, Error> {
         r.with_limited_depth(|r| {
             Ok(Self {
-                name: StringM::<128>::read_xdr(r)?,
+                name: StringM::<256>::read_xdr(r)?,
             })
         })
     }
@@ -50,7 +50,7 @@ impl WriteXdr for ScSpecTypeUdt {
 /// const contexts and convertible to the owned type via [`From`]/[`Into`].
 #[derive(Clone, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct ScSpecTypeUdtRef<'a> {
-    pub name: StringMRef<'a, 128>,
+    pub name: StringMRef<'a, 256>,
 }
 
 #[cfg(feature = "alloc")]

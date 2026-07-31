@@ -208,7 +208,7 @@
       ],
       "properties": {
         "name": {
-          "$ref": "#/definitions/StringM<128>"
+          "$ref": "#/definitions/StringM<256>"
         }
       }
     },
@@ -224,9 +224,9 @@
         }
       }
     },
-    "StringM<128>": {
+    "StringM<256>": {
       "type": "string",
-      "maxLength": 128
+      "maxLength": 256
     }
   }
 }

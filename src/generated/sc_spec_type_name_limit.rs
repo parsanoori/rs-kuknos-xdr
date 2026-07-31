@@ -4,7 +4,7 @@ use super::*;
 /// ScSpecTypeNameLimit is an XDR Const defined as:
 ///
 /// ```text
-/// const SC_SPEC_TYPE_NAME_LIMIT = 128;
+/// const SC_SPEC_TYPE_NAME_LIMIT = 256;
 /// ```
 ///
-pub const SC_SPEC_TYPE_NAME_LIMIT: u64 = 128;
+pub const SC_SPEC_TYPE_NAME_LIMIT: u64 = 256;

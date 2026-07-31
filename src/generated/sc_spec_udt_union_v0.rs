@@ -27,7 +27,7 @@ use super::*;
 pub struct ScSpecUdtUnionV0 {
     pub doc: StringM<1024>,
     pub lib: StringM<80>,
-    pub name: StringM<128>,
+    pub name: StringM<256>,
     pub cases: VecM<ScSpecUdtUnionCaseV0>,
 }
 
@@ -38,7 +38,7 @@ impl ReadXdr for ScSpecUdtUnionV0 {
             Ok(Self {
                 doc: StringM::<1024>::read_xdr(r)?,
                 lib: StringM::<80>::read_xdr(r)?,
-                name: StringM::<128>::read_xdr(r)?,
+                name: StringM::<256>::read_xdr(r)?,
                 cases: VecM::<ScSpecUdtUnionCaseV0>::read_xdr(r)?,
             })
         })
@@ -64,7 +64,7 @@ impl WriteXdr for ScSpecUdtUnionV0 {
 pub struct ScSpecUdtUnionV0Ref<'a> {
     pub doc: StringMRef<'a, 1024>,
     pub lib: StringMRef<'a, 80>,
-    pub name: StringMRef<'a, 128>,
+    pub name: StringMRef<'a, 256>,
     pub cases: VecMRef<'a, ScSpecUdtUnionCaseV0Ref<'a>>,
 }
 
