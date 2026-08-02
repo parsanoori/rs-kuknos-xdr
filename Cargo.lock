@@ -334,6 +334,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "kuknos-xdr-tmp"
+version = "20.0.0"
+dependencies = [
+ "arbitrary",
+ "base64 0.13.0",
+ "clap",
+ "crate-git-revision",
+ "escape-bytes",
+ "hex",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "stellar-strkey",
+ "thiserror",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.135"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -488,23 +505,6 @@ checksum = "12d2bf45e114117ea91d820a846fd1afbe3ba7d717988fee094ce8227a3bf8bd"
 dependencies = [
  "base32",
  "crate-git-revision",
- "thiserror",
-]
-
-[[package]]
-name = "stellar-xdr"
-version = "20.0.0"
-dependencies = [
- "arbitrary",
- "base64 0.13.0",
- "clap",
- "crate-git-revision",
- "escape-bytes",
- "hex",
- "serde",
- "serde_json",
- "serde_with",
- "stellar-strkey",
  "thiserror",
 ]
 
