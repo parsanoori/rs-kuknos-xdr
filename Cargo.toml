@@ -1,9 +1,9 @@
 [package]
-name = "stellar-xdr"
+name = "kuknos-xdr-tmp"
 description = "Stellar XDR types, encoding, and decoding."
-homepage = "https://github.com/stellar/rs-stellar-xdr"
-repository = "https://github.com/stellar/rs-stellar-xdr"
-authors = ["Stellar Development Foundation <info@stellar.org>"]
+homepage = "https://github.com/parsanoori/rs-kuknos-xdr"
+repository = "https://github.com/parsanoori/rs-kuknos-xdr"
+authors = ["Stellar Development Foundation <info@stellar.org> and Kuknos Foundation <info@kuknos.ir>"]
 license = "Apache-2.0"
 version = "20.0.0"
 edition = "2021"
