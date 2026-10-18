@@ -335,7 +335,7 @@ dependencies = [
 
 [[package]]
 name = "kuknos-xdr-tmp"
-version = "20.0.0"
+version = "20.0.1"
 dependencies = [
  "arbitrary",
  "base64 0.13.0",

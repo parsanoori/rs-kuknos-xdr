@@ -58,7 +58,7 @@ pub const XDR_FILES_SHA256: [(&str, &str); 12] = [
     ),
     (
         "xdr/curr/Stellar-transaction.x",
-        "0d2b35a331a540b48643925d0869857236eb2487c02d340ea32e365e784ea2b8",
+        "64deafa0e65a590db4b7b70145f6e000f50fa0936ed3198dd9e79d0395081991",
     ),
     (
         "xdr/curr/Stellar-types.x",
@@ -33423,12 +33423,11 @@ impl WriteXdr for SetOptionsResult {
 ///                                      // cannot create with a limit of 0
 ///     CHANGE_TRUST_LOW_RESERVE =
 ///         -4, // not enough funds to create a new trust line,
-///     CHANGE_TRUST_SELF_NOT_ALLOWED = -5,   // trusting self is not allowed
-///     CHANGE_TRUST_TRUST_LINE_MISSING = -6, // Asset trustline is missing for pool
-///     CHANGE_TRUST_CANNOT_DELETE =
-///         -7, // Asset trustline is still referenced in a pool
-///     CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES =
-///         -8 // Asset trustline is deauthorized
+///     CHANGE_TRUST_SELF_NOT_ALLOWED = -5,  // trusting self is not allowed
+///     CHANGE_TRUST_INVALID_DISTRIBUTOR_ACCOUNT = -6,  // only defined distributor (in root account) can create a new asset
+///     CHANGE_TRUST_TRUST_LINE_MISSING = -7, // Asset trustline is missing for pool
+///     CHANGE_TRUST_CANNOT_DELETE = -8, // Asset trustline is still referenced in a pool
+///     CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES = -9 // Asset trustline is deauthorized
 /// };
 /// ```
 ///
@@ -33448,30 +33447,33 @@ pub enum ChangeTrustResultCode {
     InvalidLimit = -3,
     LowReserve = -4,
     SelfNotAllowed = -5,
-    TrustLineMissing = -6,
-    CannotDelete = -7,
-    NotAuthMaintainLiabilities = -8,
+    InvalidDistributorAccount = -6,
+    TrustLineMissing = -7,
+    CannotDelete = -8,
+    NotAuthMaintainLiabilities = -9,
 }
 
 impl ChangeTrustResultCode {
-    pub const VARIANTS: [ChangeTrustResultCode; 9] = [
+    pub const VARIANTS: [ChangeTrustResultCode; 10] = [
         ChangeTrustResultCode::Success,
         ChangeTrustResultCode::Malformed,
         ChangeTrustResultCode::NoIssuer,
         ChangeTrustResultCode::InvalidLimit,
         ChangeTrustResultCode::LowReserve,
         ChangeTrustResultCode::SelfNotAllowed,
+        ChangeTrustResultCode::InvalidDistributorAccount,
         ChangeTrustResultCode::TrustLineMissing,
         ChangeTrustResultCode::CannotDelete,
         ChangeTrustResultCode::NotAuthMaintainLiabilities,
     ];
-    pub const VARIANTS_STR: [&'static str; 9] = [
+    pub const VARIANTS_STR: [&'static str; 10] = [
         "Success",
         "Malformed",
         "NoIssuer",
         "InvalidLimit",
         "LowReserve",
         "SelfNotAllowed",
+        "InvalidDistributorAccount",
         "TrustLineMissing",
         "CannotDelete",
         "NotAuthMaintainLiabilities",
@@ -33486,6 +33488,7 @@ impl ChangeTrustResultCode {
             Self::InvalidLimit => "InvalidLimit",
             Self::LowReserve => "LowReserve",
             Self::SelfNotAllowed => "SelfNotAllowed",
+            Self::InvalidDistributorAccount => "InvalidDistributorAccount",
             Self::TrustLineMissing => "TrustLineMissing",
             Self::CannotDelete => "CannotDelete",
             Self::NotAuthMaintainLiabilities => "NotAuthMaintainLiabilities",
@@ -33493,7 +33496,7 @@ impl ChangeTrustResultCode {
     }
 
     #[must_use]
-    pub const fn variants() -> [ChangeTrustResultCode; 9] {
+    pub const fn variants() -> [ChangeTrustResultCode; 10] {
         Self::VARIANTS
     }
 }
@@ -33530,9 +33533,10 @@ impl TryFrom<i32> for ChangeTrustResultCode {
             -3 => ChangeTrustResultCode::InvalidLimit,
             -4 => ChangeTrustResultCode::LowReserve,
             -5 => ChangeTrustResultCode::SelfNotAllowed,
-            -6 => ChangeTrustResultCode::TrustLineMissing,
-            -7 => ChangeTrustResultCode::CannotDelete,
-            -8 => ChangeTrustResultCode::NotAuthMaintainLiabilities,
+            -6 => ChangeTrustResultCode::InvalidDistributorAccount,
+            -7 => ChangeTrustResultCode::TrustLineMissing,
+            -8 => ChangeTrustResultCode::CannotDelete,
+            -9 => ChangeTrustResultCode::NotAuthMaintainLiabilities,
             #[allow(unreachable_patterns)]
             _ => return Err(Error::Invalid),
         };
@@ -33580,6 +33584,7 @@ impl WriteXdr for ChangeTrustResultCode {
 /// case CHANGE_TRUST_INVALID_LIMIT:
 /// case CHANGE_TRUST_LOW_RESERVE:
 /// case CHANGE_TRUST_SELF_NOT_ALLOWED:
+/// case CHANGE_TRUST_INVALID_DISTRIBUTOR_ACCOUNT:
 /// case CHANGE_TRUST_TRUST_LINE_MISSING:
 /// case CHANGE_TRUST_CANNOT_DELETE:
 /// case CHANGE_TRUST_NOT_AUTH_MAINTAIN_LIABILITIES:
@@ -33603,30 +33608,33 @@ pub enum ChangeTrustResult {
     InvalidLimit,
     LowReserve,
     SelfNotAllowed,
+    InvalidDistributorAccount,
     TrustLineMissing,
     CannotDelete,
     NotAuthMaintainLiabilities,
 }
 
 impl ChangeTrustResult {
-    pub const VARIANTS: [ChangeTrustResultCode; 9] = [
+    pub const VARIANTS: [ChangeTrustResultCode; 10] = [
         ChangeTrustResultCode::Success,
         ChangeTrustResultCode::Malformed,
         ChangeTrustResultCode::NoIssuer,
         ChangeTrustResultCode::InvalidLimit,
         ChangeTrustResultCode::LowReserve,
         ChangeTrustResultCode::SelfNotAllowed,
+        ChangeTrustResultCode::InvalidDistributorAccount,
         ChangeTrustResultCode::TrustLineMissing,
         ChangeTrustResultCode::CannotDelete,
         ChangeTrustResultCode::NotAuthMaintainLiabilities,
     ];
-    pub const VARIANTS_STR: [&'static str; 9] = [
+    pub const VARIANTS_STR: [&'static str; 10] = [
         "Success",
         "Malformed",
         "NoIssuer",
         "InvalidLimit",
         "LowReserve",
         "SelfNotAllowed",
+        "InvalidDistributorAccount",
         "TrustLineMissing",
         "CannotDelete",
         "NotAuthMaintainLiabilities",
@@ -33641,6 +33649,7 @@ impl ChangeTrustResult {
             Self::InvalidLimit => "InvalidLimit",
             Self::LowReserve => "LowReserve",
             Self::SelfNotAllowed => "SelfNotAllowed",
+            Self::InvalidDistributorAccount => "InvalidDistributorAccount",
             Self::TrustLineMissing => "TrustLineMissing",
             Self::CannotDelete => "CannotDelete",
             Self::NotAuthMaintainLiabilities => "NotAuthMaintainLiabilities",
@@ -33657,6 +33666,7 @@ impl ChangeTrustResult {
             Self::InvalidLimit => ChangeTrustResultCode::InvalidLimit,
             Self::LowReserve => ChangeTrustResultCode::LowReserve,
             Self::SelfNotAllowed => ChangeTrustResultCode::SelfNotAllowed,
+            Self::InvalidDistributorAccount => ChangeTrustResultCode::InvalidDistributorAccount,
             Self::TrustLineMissing => ChangeTrustResultCode::TrustLineMissing,
             Self::CannotDelete => ChangeTrustResultCode::CannotDelete,
             Self::NotAuthMaintainLiabilities => ChangeTrustResultCode::NotAuthMaintainLiabilities,
@@ -33664,7 +33674,7 @@ impl ChangeTrustResult {
     }
 
     #[must_use]
-    pub const fn variants() -> [ChangeTrustResultCode; 9] {
+    pub const fn variants() -> [ChangeTrustResultCode; 10] {
         Self::VARIANTS
     }
 }
@@ -33704,6 +33714,7 @@ impl ReadXdr for ChangeTrustResult {
                 ChangeTrustResultCode::InvalidLimit => Self::InvalidLimit,
                 ChangeTrustResultCode::LowReserve => Self::LowReserve,
                 ChangeTrustResultCode::SelfNotAllowed => Self::SelfNotAllowed,
+                ChangeTrustResultCode::InvalidDistributorAccount => Self::InvalidDistributorAccount,
                 ChangeTrustResultCode::TrustLineMissing => Self::TrustLineMissing,
                 ChangeTrustResultCode::CannotDelete => Self::CannotDelete,
                 ChangeTrustResultCode::NotAuthMaintainLiabilities => {
@@ -33730,6 +33741,7 @@ impl WriteXdr for ChangeTrustResult {
                 Self::InvalidLimit => ().write_xdr(w)?,
                 Self::LowReserve => ().write_xdr(w)?,
                 Self::SelfNotAllowed => ().write_xdr(w)?,
+                Self::InvalidDistributorAccount => ().write_xdr(w)?,
                 Self::TrustLineMissing => ().write_xdr(w)?,
                 Self::CannotDelete => ().write_xdr(w)?,
                 Self::NotAuthMaintainLiabilities => ().write_xdr(w)?,
@@ -37244,7 +37256,8 @@ impl WriteXdr for SetTrustLineFlagsResult {
 ///     LIQUIDITY_POOL_DEPOSIT_LINE_FULL = -5,      // pool share trust line doesn't
 ///                                                 // have sufficient limit
 ///     LIQUIDITY_POOL_DEPOSIT_BAD_PRICE = -6,      // deposit price outside bounds
-///     LIQUIDITY_POOL_DEPOSIT_POOL_FULL = -7       // pool reserves are full
+///     LIQUIDITY_POOL_DEPOSIT_POOL_FULL = -7,       // pool reserves are full
+///     LIQUIDITY_POOL_DEPOSIT_INVALID_DIST_ACCOUNT = -8   // invalid disributor account
 /// };
 /// ```
 ///
@@ -37266,10 +37279,11 @@ pub enum LiquidityPoolDepositResultCode {
     LineFull = -5,
     BadPrice = -6,
     PoolFull = -7,
+    InvalidDistAccount = -8,
 }
 
 impl LiquidityPoolDepositResultCode {
-    pub const VARIANTS: [LiquidityPoolDepositResultCode; 8] = [
+    pub const VARIANTS: [LiquidityPoolDepositResultCode; 9] = [
         LiquidityPoolDepositResultCode::Success,
         LiquidityPoolDepositResultCode::Malformed,
         LiquidityPoolDepositResultCode::NoTrust,
@@ -37278,8 +37292,9 @@ impl LiquidityPoolDepositResultCode {
         LiquidityPoolDepositResultCode::LineFull,
         LiquidityPoolDepositResultCode::BadPrice,
         LiquidityPoolDepositResultCode::PoolFull,
+        LiquidityPoolDepositResultCode::InvalidDistAccount,
     ];
-    pub const VARIANTS_STR: [&'static str; 8] = [
+    pub const VARIANTS_STR: [&'static str; 9] = [
         "Success",
         "Malformed",
         "NoTrust",
@@ -37288,6 +37303,7 @@ impl LiquidityPoolDepositResultCode {
         "LineFull",
         "BadPrice",
         "PoolFull",
+        "InvalidDistAccount",
     ];
 
     #[must_use]
@@ -37301,11 +37317,12 @@ impl LiquidityPoolDepositResultCode {
             Self::LineFull => "LineFull",
             Self::BadPrice => "BadPrice",
             Self::PoolFull => "PoolFull",
+            Self::InvalidDistAccount => "InvalidDistAccount",
         }
     }
 
     #[must_use]
-    pub const fn variants() -> [LiquidityPoolDepositResultCode; 8] {
+    pub const fn variants() -> [LiquidityPoolDepositResultCode; 9] {
         Self::VARIANTS
     }
 }
@@ -37344,6 +37361,7 @@ impl TryFrom<i32> for LiquidityPoolDepositResultCode {
             -5 => LiquidityPoolDepositResultCode::LineFull,
             -6 => LiquidityPoolDepositResultCode::BadPrice,
             -7 => LiquidityPoolDepositResultCode::PoolFull,
+            -8 => LiquidityPoolDepositResultCode::InvalidDistAccount,
             #[allow(unreachable_patterns)]
             _ => return Err(Error::Invalid),
         };
@@ -37393,6 +37411,7 @@ impl WriteXdr for LiquidityPoolDepositResultCode {
 /// case LIQUIDITY_POOL_DEPOSIT_LINE_FULL:
 /// case LIQUIDITY_POOL_DEPOSIT_BAD_PRICE:
 /// case LIQUIDITY_POOL_DEPOSIT_POOL_FULL:
+/// case LIQUIDITY_POOL_DEPOSIT_INVALID_DIST_ACCOUNT:
 ///     void;
 /// };
 /// ```
@@ -37415,10 +37434,11 @@ pub enum LiquidityPoolDepositResult {
     LineFull,
     BadPrice,
     PoolFull,
+    InvalidDistAccount,
 }
 
 impl LiquidityPoolDepositResult {
-    pub const VARIANTS: [LiquidityPoolDepositResultCode; 8] = [
+    pub const VARIANTS: [LiquidityPoolDepositResultCode; 9] = [
         LiquidityPoolDepositResultCode::Success,
         LiquidityPoolDepositResultCode::Malformed,
         LiquidityPoolDepositResultCode::NoTrust,
@@ -37427,8 +37447,9 @@ impl LiquidityPoolDepositResult {
         LiquidityPoolDepositResultCode::LineFull,
         LiquidityPoolDepositResultCode::BadPrice,
         LiquidityPoolDepositResultCode::PoolFull,
+        LiquidityPoolDepositResultCode::InvalidDistAccount,
     ];
-    pub const VARIANTS_STR: [&'static str; 8] = [
+    pub const VARIANTS_STR: [&'static str; 9] = [
         "Success",
         "Malformed",
         "NoTrust",
@@ -37437,6 +37458,7 @@ impl LiquidityPoolDepositResult {
         "LineFull",
         "BadPrice",
         "PoolFull",
+        "InvalidDistAccount",
     ];
 
     #[must_use]
@@ -37450,6 +37472,7 @@ impl LiquidityPoolDepositResult {
             Self::LineFull => "LineFull",
             Self::BadPrice => "BadPrice",
             Self::PoolFull => "PoolFull",
+            Self::InvalidDistAccount => "InvalidDistAccount",
         }
     }
 
@@ -37465,11 +37488,12 @@ impl LiquidityPoolDepositResult {
             Self::LineFull => LiquidityPoolDepositResultCode::LineFull,
             Self::BadPrice => LiquidityPoolDepositResultCode::BadPrice,
             Self::PoolFull => LiquidityPoolDepositResultCode::PoolFull,
+            Self::InvalidDistAccount => LiquidityPoolDepositResultCode::InvalidDistAccount,
         }
     }
 
     #[must_use]
-    pub const fn variants() -> [LiquidityPoolDepositResultCode; 8] {
+    pub const fn variants() -> [LiquidityPoolDepositResultCode; 9] {
         Self::VARIANTS
     }
 }
@@ -37512,6 +37536,7 @@ impl ReadXdr for LiquidityPoolDepositResult {
                 LiquidityPoolDepositResultCode::LineFull => Self::LineFull,
                 LiquidityPoolDepositResultCode::BadPrice => Self::BadPrice,
                 LiquidityPoolDepositResultCode::PoolFull => Self::PoolFull,
+                LiquidityPoolDepositResultCode::InvalidDistAccount => Self::InvalidDistAccount,
                 #[allow(unreachable_patterns)]
                 _ => return Err(Error::Invalid),
             };
@@ -37535,6 +37560,7 @@ impl WriteXdr for LiquidityPoolDepositResult {
                 Self::LineFull => ().write_xdr(w)?,
                 Self::BadPrice => ().write_xdr(w)?,
                 Self::PoolFull => ().write_xdr(w)?,
+                Self::InvalidDistAccount => ().write_xdr(w)?,
             };
             Ok(())
         })
