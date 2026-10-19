@@ -4,5 +4,5 @@
 	branch = next
 [submodule "xdr/curr"]
 	path = xdr/curr
-	url = https://github.com/parsanoori/stellar-xdr
+	url = https://github.com/parsanoori/kuknos-xdr
 	branch = upgrade-curr
